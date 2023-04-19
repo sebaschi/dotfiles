@@ -1,0 +1,68 @@
+# .bashrc
+
+# Source global definitions
+if [ -f /etc/bashrc ]; then
+	. /etc/bashrc
+fi
+
+# User specific environment
+if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]
+then
+    PATH="$HOME/.local/bin:$HOME/bin:$PATH"
+fi
+export PATH
+
+# Uncomment the following line if you don't like systemctl's auto-paging feature:
+# export SYSTEMD_PAGER=
+
+# User specific aliases and functions
+if [ -d ~/.bashrc.d ]; then
+	for rc in ~/.bashrc.d/*; do
+		if [ -f "$rc" ]; then
+			. "$rc"
+		fi
+	done
+fi
+
+unset rc
+
+source /home/slnopriv/alacritty/extra/completions/alacritty.bash
+eval "$(starship init bash)"
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/slnopriv/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/slnopriv/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/slnopriv/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/slnopriv/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# cd to fs23 pids exercises
+alias cdpex='cd ~/Documents/Education/UniBas/FS23/pids23/exercises/pids_2023/exercises/'
+
+# cd into nextcloud unibas fs23
+alias uni23='cd ~/Nextcloud/Documents/Unibas/FS23/'
+
+#cd into thoc
+alias thoc='cd ~/Nextcloud/Documents/Unibas/FS23/thoc/'
+#cd into inetsec 
+alias inetsec='cd ~/Nextcloud/Documents/Unibas/FS23/inetsec/'
+#cd into os alias 
+alias os='cd ~/Nextcloud/Documents/Unibas/FS23/os/' 
+#cd into pkvps 
+alias pkvps='cd ~/Nextcloud/Documents/Unibas/FS23/pkvps/'
+#cd into pids
+alias pids='cd ~/Nextcloud/Documents/Unibas/FS23/pids/'
+
+#rsync Books from Cloud
+alias syncbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
+
+#cd to local uni stuff
+alias unil='cd ~/Documents/Education/UniBas/FS23'
