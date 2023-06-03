@@ -73,9 +73,5 @@ alias sslenz='ssh slnopriv@164.90.178.129'
 # exa aliases
 alias ll='exa -l'
 alias la='exa -la'
-alias lll='exa -la -T -l --level=2'
-alias
-PATH=$PATH:/home/slnopriv/.cargo/bin
-export PATH
-export PATH=$PATH:/home/slnopriv/.local/bin
+alias lll='exa -la -T -l --level=3'
 
