@@ -1,4 +1,4 @@
-# .bashrc
+
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -68,7 +68,8 @@ alias syncbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
 alias unil='cd ~/Documents/Education/UniBas/FS23'
 
 # ssh to wherever slnopriv@slenzlinger.dev points to
-alias sslenz='ssh slnopriv@164.90.178.129'
+alias sdev='ssh slnopriv@164.90.178.129'
+alias sslenz='ssh root@slenzlinger.ch'
 
 # exa aliases
 alias ll='exa -l'
