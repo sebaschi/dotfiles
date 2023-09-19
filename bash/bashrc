@@ -61,7 +61,7 @@ alias pkvps='cd ~/Nextcloud/Documents/Unibas/FS23/pkvps/'
 #cd into pids
 alias pids='cd ~/Nextcloud/Documents/Unibas/FS23/pids/'
 
-alias pr23='cd ~/Nextcloud/Documents/Unibas/FS23/pr23/'
+alias pr23='cd ~/Nextcloud/Documents/Unibas/HS23/pr23/'
 
 #rsync Books from Cloud
 alias syncbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
