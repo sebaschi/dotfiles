@@ -61,13 +61,14 @@ alias pkvps='cd ~/Nextcloud/Documents/Unibas/FS23/pkvps/'
 #cd into pids
 alias pids='cd ~/Nextcloud/Documents/Unibas/FS23/pids/'
 
-alias pr23='cd ~/Nextcloud/Documents/Unibas/HS23/pr23/'
+alias pr23='cd ~/Documents/Education/UniBas/HS23/pr23/'
 
 #rsync Books from Cloud
 alias syncbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
+alias synchs23='rsync -av ~/Documents/Education/UniBas/HS23/ ~/Nextcloud/Documents/Unibas/FS23'
 
-#cd to local uni stuff
 alias unil='cd ~/Documents/Education/UniBas/HS23'
+alias unic='cd ~/Nextcloud/Documents/Unibas/FS23'
 
 # ssh to wherever slnopriv@slenzlinger.dev points to
 alias sdev='ssh slnopriv@164.90.178.129'
