@@ -1,4 +1,4 @@
-
+neofetch
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -65,7 +65,8 @@ alias pr23='cd ~/Documents/Education/UniBas/HS23/pr23/'
 
 #rsync Books from Cloud
 alias syncbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
-alias synchs23='rsync -av ~/Documents/Education/UniBas/HS23/ ~/Nextcloud/Documents/Unibas/FS23'
+alias synchs23='rsync -uav --exclude=".*" ~/Documents/Education/UniBas/HS23/ ~/Nextcloud/Documents/Unibas/HS23'
+alias pullhs23='rsync -uav --exclude=".*" ~/Nextcloud/Documents/Unibas/HS23/ ~/Documents/Education/UniBas/HS23'
 
 alias unil='cd ~/Documents/Education/UniBas/HS23'
 alias unic='cd ~/Nextcloud/Documents/Unibas/FS23'

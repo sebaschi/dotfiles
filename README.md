@@ -18,4 +18,5 @@ ln -s ~/.dotfiles/bash/bashrc ~/.bashrc
 * starship.io
 * 'neofetch' CLI for system (OS mostly) info
 * 'ncdu" CLI disk use info
+* 'htop' process/cpu info. replacement for 'top'
 
