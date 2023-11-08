@@ -1,7 +1,9 @@
 # Some Notes
 __  To be worked into a setup script at some point __
 ## Use SSH to clone repo
+```
 git clone git@github.com:sebaschi/dotfiles.git ~/.dotfiles
+```
 
 ## Symlink files to correct locations
 ```
