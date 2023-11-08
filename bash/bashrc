@@ -1,4 +1,4 @@
-neofetch
+fastfetch 
 
 # Source global definitions
 if [ -f /etc/bashrc ]; then
@@ -41,6 +41,10 @@ else
         export PATH="/home/slnopriv/anaconda3/bin:$PATH"
     fi
 fi
+
+export PATH="$PATH:/home/slnopriv/Applications/pycharm-2023.2.3/bin"
+export PATH="$PATH://home/slnopriv/Applications/DataGrip-2023.2.2/bin"
+
 unset __conda_setup
 # <<< conda initialize <<<
 
@@ -48,7 +52,7 @@ unset __conda_setup
 alias cdpex='cd ~/Documents/Education/UniBas/FS23/pids23/exercises/pids_2023/exercises/'
 
 # cd into nextcloud unibas fs23
-alias uni23='cd ~/Nextcloud/Documents/Unibas/FS23/'
+alias uni23='cd ~/Nextcloud/Documents/Unibas/HS23/'
 
 #cd into thoc
 alias thoc='cd ~/Nextcloud/Documents/Unibas/FS23/thoc/'
@@ -62,18 +66,22 @@ alias pkvps='cd ~/Nextcloud/Documents/Unibas/FS23/pkvps/'
 alias pids='cd ~/Nextcloud/Documents/Unibas/FS23/pids/'
 
 alias pr23='cd ~/Documents/Education/UniBas/HS23/pr23/'
+alias db23='cd ~/Documents/Education/UniBas/HS23/databases/'
+alias pet23='cd ~/Documents/Education/UniBas/HS23/pethpc23/'
+alias diskmath='cd ~/Documents/Education/UniBas/HS23/diskmath-tutorat23/'
 
 #rsync Books from Cloud
-alias syncbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
-alias synchs23='rsync -uav --exclude=".*" ~/Documents/Education/UniBas/HS23/ ~/Nextcloud/Documents/Unibas/HS23'
+alias pullbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
+alias pushbooks='rsync -av ~/Books/ ~/Nextcloud/Books'
+alias pushhs23='rsync -uav --exclude=".*" --exclude="__*" ~/Documents/Education/UniBas/HS23/ ~/Nextcloud/Documents/Unibas/HS23'
 alias pullhs23='rsync -uav --exclude=".*" ~/Nextcloud/Documents/Unibas/HS23/ ~/Documents/Education/UniBas/HS23'
 
 alias unil='cd ~/Documents/Education/UniBas/HS23'
 alias unic='cd ~/Nextcloud/Documents/Unibas/FS23'
 
 # ssh to wherever slnopriv@slenzlinger.dev points to
-alias sdev='ssh slnopriv@164.90.178.129'
-alias sslenz='ssh root@slenzlinger.ch'
+alias sdev='ssh sebl@slenzlinger.dev'
+alias sslenz='ssh fm18b_sebaschi@slenzlinger.ch'
 
 # exa aliases
 alias ll='exa -l'
