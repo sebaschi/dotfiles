@@ -43,7 +43,7 @@ else
 fi
 
 export PATH="$PATH:/home/slnopriv/Applications/pycharm-2023.2.3/bin"
-export PATH="$PATH://home/slnopriv/Applications/DataGrip-2023.2.2/bin"
+export PATH="$PATH:/home/slnopriv/Applications/DataGrip-2023.2.2/bin"
 
 unset __conda_setup
 # <<< conda initialize <<<
@@ -86,5 +86,9 @@ alias sslenz='ssh fm18b_sebaschi@slenzlinger.ch'
 # exa aliases
 alias ll='exa -l'
 alias la='exa -la'
+
 alias lll='exa -la -T -l --level=3'
+alias lla='exa -laF'
+alias la='exa -A'
+alias l='exa -CF'
 
