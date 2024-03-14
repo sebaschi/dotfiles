@@ -73,22 +73,37 @@ alias diskmath='cd ~/Documents/Education/UniBas/HS23/diskmath-tutorat23/'
 #rsync Books from Cloud
 alias pullbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
 alias pushbooks='rsync -av ~/Books/ ~/Nextcloud/Books'
-alias pushhs23='rsync -uav --exclude=".*" --exclude="__*" ~/Documents/Education/UniBas/HS23/ ~/Nextcloud/Documents/Unibas/HS23'
-alias pullhs23='rsync -uav --exclude=".*" ~/Nextcloud/Documents/Unibas/HS23/ ~/Documents/Education/UniBas/HS23'
+alias pushfs24='rsync -uav --exclude=".*" --exclude="__*" ~/Documents/Education/UniBas/FS24/ ~/Nextcloud/Documents/Unibas/FS24'
+alias pullfs24='rsync -uav --exclude=".*" ~/Nextcloud/Documents/Unibas/FS24/ ~/Documents/Education/UniBas/FS24'
 
-alias unil='cd ~/Documents/Education/UniBas/HS23'
-alias unic='cd ~/Nextcloud/Documents/Unibas/FS23'
+alias fs24l='cd ~/Documents/Education/UniBas/FS24'
+alias fs24c='cd ~/Nextcloud/Documents/Unibas/FS24'
 
 # ssh to wherever slnopriv@slenzlinger.dev points to
 alias sdev='ssh sebl@slenzlinger.dev'
 alias sslenz='ssh fm18b_sebaschi@slenzlinger.ch'
 
 # exa aliases
-alias ll='exa -l'
-alias la='exa -la'
+alias ll='eza -l'
+alias la='eza -la'
 
-alias lll='exa -la -T -l --level=3'
-alias lla='exa -laF'
-alias la='exa -A'
-alias l='exa -CF'
+alias lll='eza -la -T -l --level=3'
+alias lla='eza -laF'
+alias la='eza -A'
+alias l='eza -CF'
 
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+case ":$PATH:" in
+    *:/home/slnopriv/.juliaup/bin:*)
+        ;;
+
+    *)
+        export PATH=/home/slnopriv/.juliaup/bin${PATH:+:${PATH}}
+        ;;
+esac
+
+# <<< juliaup initialize <<<
