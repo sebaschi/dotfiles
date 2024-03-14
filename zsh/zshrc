@@ -14,3 +14,6 @@ eval "$(starship init zsh)"
 alias ls="exa"
 alias ll="exa -la"
 alias update="sudo pacman -Syu"
+SEB_BIN='~/bin'
+SEB_SRC='~/src'
+SEB_BUILD='~/src'
