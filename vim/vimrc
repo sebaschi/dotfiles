@@ -112,3 +112,12 @@ map ; :
 set shiftwidth=4 smarttab
 set expandtab
 set tabstop=8 softtabstop=0
+
+
+" VimPlug Section
+call plug#begin()
+
+" Add your plugins here
+Plug 'github/copilot.vim' , { 'rtp': '~/.config/nvim/pack/github/start/copilot.vim' }
+
+call plug#end()

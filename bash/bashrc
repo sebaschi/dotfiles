@@ -45,7 +45,7 @@ unset __conda_setup
 # <<< conda initialize <<<
 #Source aliases
 source ~/.bash_aliases
-
+export PATH="~/scripts:$PATH"
 # !! Contents within this block are managed by juliaup !!
 
 case ":$PATH:" in
