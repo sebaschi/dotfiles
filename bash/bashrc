@@ -26,7 +26,9 @@ fi
 
 unset rc
 
-source /home/slnopriv/alacritty/extra/completions/alacritty.bash
+if ! source /home/slnopriv/alacritty/extra/completions/alacritty.bash; then
+    echo "Failed to source alacritty completions"
+fi
 eval "$(starship init bash)"
 
 # >>> conda initialize >>>
@@ -45,7 +47,12 @@ unset __conda_setup
 # <<< conda initialize <<<
 #Source aliases
 source ~/.bash_aliases
+source ~/.fedora_aliases
 export PATH="~/scripts:$PATH"
+# Souecw functions
+source ~/.bash_functions
+
+
 # !! Contents within this block are managed by juliaup !!
 
 case ":$PATH:" in

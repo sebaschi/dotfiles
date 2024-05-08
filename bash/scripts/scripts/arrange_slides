@@ -1,0 +1,19 @@
+#! /usr/bin/env bash
+
+filename=$1
+rmpattern=$2
+suffix=$3
+dstFolder="${PWD}/arranged"
+newFilename="${filename%${rmpattern}}${suffix}.pdf"
+# Make destination folder
+mkdir -p ${dstFolder}
+
+pdfjam --nup 2x2 \
+    --landscape \
+    --clip 'true' \
+    --delta '0cm 0cm' \
+    --offset '1cm 0cm' \
+    --outfile ${newFilename} ${filename}
+mv ${newFilename} ${dstFolder}
+# unused
+# --trim '0.7cm 0cm 0.7cm 0cm' \

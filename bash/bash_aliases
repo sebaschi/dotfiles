@@ -1,25 +1,3 @@
-# User specific aliases and functions
-alias cdpex='cd ~/Documents/Education/UniBas/FS23/pids23/exercises/pids_2023/exercises/'
-alias uni23='cd ~/Nextcloud/Documents/Unibas/HS23/'
-alias thoc='cd ~/Nextcloud/Documents/Unibas/FS23/thoc/'
-alias inetsec='cd ~/Nextcloud/Documents/Unibas/FS23/inetsec/'
-#cd into os alias 
-alias os='cd ~/Nextcloud/Documents/Unibas/FS23/os/' 
-alias pkvps='cd ~/Nextcloud/Documents/Unibas/FS23/pkvps/'
-alias pids='cd ~/Nextcloud/Documents/Unibas/FS23/pids/'
-alias pr23='cd ~/Documents/Education/UniBas/HS23/pr23/'
-alias db23='cd ~/Documents/Education/UniBas/HS23/databases/'
-alias pet23='cd ~/Documents/Education/UniBas/HS23/pethpc23/'
-alias diskmath='cd ~/Documents/Education/UniBas/HS23/diskmath-tutorat23/'
-alias pullbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
-alias pushbooks='rsync -av ~/Books/ ~/Nextcloud/Books'
-alias pushfs24='rsync -uav --exclude=".*" --exclude="__*" --exclude="/venv" ~/documents/education/unibas/fs24/ ~/Nextcloud/Documents/Unibas/FS24'
-alias pullfs24='rsync -uav --exclude=".*" ~/Nextcloud/Documents/Unibas/FS24/ ~/documents/education/unibas/fs24'
-alias fs24l='cd ~/documents/education/unibas/fs24'
-alias fs24c='cd ~/Nextcloud/Documents/Unibas/FS24'
-alias sdev='ssh sebl@slenzlinger.dev'
-alias sslenz='ssh fm18b_sebaschi@slenzlinger.ch'
-
 #
 # eza aliases
 #
@@ -36,18 +14,48 @@ alias l='eza -CF'
 alias g='git'
 alias gs='git status'
 alias ga='git add'
+alias gaa='git add --all'
+
 alias gc='git commit'
 alias gcm='git commit -m'
 alias gca='git commit --amend'
+
 alias gco='git checkout'
 alias gcb='git checkout -b'
+
 alias gcp='git cherry-pick'
 alias gcl='git clone'   
-alias gpr='git pull --rebase'
+
+alias gplr='git pull --rebase'
+alias gpl='git pull'
 alias gpo='git push origin'
 alias gpf='git push --force'
-alias gpl='git pull'
+# git log aliases
 alias glog='git log --oneline --graph --decorate'
 alias gloga='git log --oneline --graph --decorate --all'
-alias glod='git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset'
-alias glods='git log --graph --pretty='%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --date=short'
+alias glod='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset"'
+alias glods='git log --graph --pretty="%Cred%h%Creset -%C(auto)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset" --date=short'
+
+#termbin
+alias tb='nc termbin.com 9999'
+
+# get error messages from journalctl
+alias jerr='journalctl -p 3 -xb'
+# get warning messages from journalctl
+alias jwarn='journalctl -p 4 -xb'
+# get critical messages from journalctl
+alias jcrit='journalctl -p 2 -xb'
+# get emergency messages from journalctl
+alias jemerg='journalctl -p 0 -xb'
+
+# get status of all services
+alias jstat='systemctl list-units --type=service --state=running'
+# get status with failed services
+alias jstatf='systemctl list-units --type=service --state=failed'
+
+# history
+alias histg='history | grep'
+
+# get my ip
+alias myip='curl ifconfig.me'
+#TODO: get my ipv4

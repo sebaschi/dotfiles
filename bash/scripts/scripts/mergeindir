@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+qpdf --empty --pages $(ls -l | grep -v '^d' | sort) -- "$1.pdf"

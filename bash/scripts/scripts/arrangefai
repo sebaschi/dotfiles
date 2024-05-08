@@ -1,0 +1,13 @@
+#! /usr/bin/env bash
+file=$1
+outfile="${file%'handout.pdf'}jam4.pdf"
+dst=${PWD}/jammed
+mkdir -p ${dst}
+pdfjam --nup 2x2 --column false \
+    --landscape --offset '1.2cm 0cm' \
+    --outfile ${outfile} --scale 0.95 \
+    --frame true \
+    $1
+
+mv ${outfile} ${dst}
+

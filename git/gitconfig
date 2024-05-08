@@ -1,3 +1,10 @@
 [user]
     email = 74497638+sebaschi@users.noreply.github.com
     name = Sebastian Lenzlinger
+[http]
+	sslVerify = false
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
