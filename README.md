@@ -1,6 +1,6 @@
 # Some Notes
 __  To be worked into a setup script at some point __
-## Use SSH to clone repo
+## Clone repo
 ```
 git clone git@github.com:sebaschi/dotfiles.git ~/.dotfiles
 ```
@@ -21,4 +21,5 @@ ln -s ~/.dotfiles/bash/bashrc ~/.bashrc
 * 'neofetch' CLI for system (OS mostly) info
 * 'ncdu" CLI disk use info
 * 'htop' process/cpu info. replacement for 'top'
+* neovim with lazy.nvim
 
