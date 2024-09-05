@@ -1,0 +1,233 @@
+{
+    "id": 2,
+    "name": "fedora40-priv",
+    "added_at": "2024-06-08 16:59:25.966522",
+    "repo": {
+        "url": "ssh://BORG_REPO_URL",
+        "added_at": "2024-06-24 18:58:15.316153",
+        "encryption": "repokey-blake2",
+        "unique_size": 20698046843,
+        "unique_csize": null,
+        "total_size": 247024121037,
+        "total_unique_chunks": 64667,
+        "create_backup_cmd": "",
+        "extra_borg_arguments": ""
+    },
+    "ssh_key": null,
+    "compression": "lz4",
+    "exclude_patterns": "*.iso\n*.log\nlog/\nlogs/\n*/cache\n*/data\n*.csv\n*/.cache\n*/Downloads\n*/.local/share/Trash\n*/.npm\n*/.node_modules\n*/.git\n*/.virtualenvs\n*/.Trash\n*/temp\n*/tmp\n*/.DS_Store\n*/Thumbs.db\n*/.thumbnails\n*/__pycache__\n*/node_modules\n*/.vscode\n*/.idea\n*/.venv\n*/env\n*/build\n*/dist\n*/*.log\n*/log/*\n*/logs/*\n*.iso\n*.qcow2\n*.vmdk\n*/vmware\n*/.local\n*/.cache\n*/opt\n*/.pytest_cache",
+    "exclude_if_present": ".nobackup",
+    "schedule_mode": "interval",
+    "schedule_interval_count": 15,
+    "schedule_interval_unit": "minutes",
+    "schedule_fixed_hour": 3,
+    "schedule_fixed_minute": 42,
+    "schedule_interval_hours": 3,
+    "schedule_interval_minutes": 42,
+    "schedule_make_up_missed": true,
+    "validation_on": true,
+    "validation_weeks": 1,
+    "prune_on": false,
+    "prune_hour": 2,
+    "prune_day": 7,
+    "prune_week": 4,
+    "prune_month": 6,
+    "prune_year": 2,
+    "prune_keep_within": "10H",
+    "new_archive_name": "{user}-at-{hostname}_{now:%Y-%m-%d_%H%M%S}",
+    "prune_prefix": "{hostname}-",
+    "pre_backup_cmd": "",
+    "post_backup_cmd": "",
+    "dont_run_on_metered_networks": true,
+    "SourceFileModel": [
+        {
+            "dir": "/home/seb",
+            "dir_size": 28041024866,
+            "dir_files_count": 76845,
+            "path_isdir": true,
+            "profile": 2,
+            "added_at": "2024-06-24 17:31:54.595457"
+        }
+    ],
+    "SchemaVersion": {
+        "id": 1,
+        "version": 20,
+        "changed_at": "2024-06-08 16:58:51.359742"
+    },
+    "WifiSettingModel": [
+        {
+            "id": 2,
+            "ssid": "LenbrO",
+            "last_connected": "2024-06-29 08:09:43",
+            "allowed": true,
+            "profile": 2
+        },
+        {
+            "id": 3,
+            "ssid": "Seb",
+            "last_connected": "2024-06-21 18:32:20",
+            "allowed": true,
+            "profile": 2
+        },
+        {
+            "id": 4,
+            "ssid": "unibas-device",
+            "last_connected": null,
+            "allowed": true,
+            "profile": 2
+        },
+        {
+            "id": 5,
+            "ssid": "eduroam",
+            "last_connected": "2024-06-21 14:12:17",
+            "allowed": true,
+            "profile": 2
+        }
+    ],
+    "SettingsModel": [
+        {
+            "key": "enable_notifications",
+            "value": true,
+            "str_value": "",
+            "label": "Display notifications when background tasks fail",
+            "group": "Notifications",
+            "tooltip": "",
+            "type": "checkbox"
+        },
+        {
+            "key": "enable_notifications_success",
+            "value": true,
+            "str_value": "",
+            "label": "Notify about successful background tasks",
+            "group": "Notifications",
+            "tooltip": "",
+            "type": "checkbox"
+        },
+        {
+            "key": "autostart",
+            "value": true,
+            "str_value": "",
+            "label": "Automatically start Vorta at login",
+            "group": "Startup",
+            "tooltip": "Add Vorta to the systems autostart list",
+            "type": "checkbox"
+        },
+        {
+            "key": "foreground",
+            "value": true,
+            "str_value": "",
+            "label": "Open main window on startup",
+            "group": "Startup",
+            "tooltip": "Open main window when the application is launched",
+            "type": "checkbox"
+        },
+        {
+            "key": "get_srcpath_datasize",
+            "value": true,
+            "str_value": "",
+            "label": "Get statistics of file/folder when added",
+            "group": "Information",
+            "tooltip": "When adding a new source, calculate its size and the number of files.",
+            "type": "checkbox"
+        },
+        {
+            "key": "use_system_keyring",
+            "value": true,
+            "str_value": "",
+            "label": "Store repository passwords in system keychain, if available",
+            "group": "Security",
+            "tooltip": "Otherwise Vorta's configuration database stores the password in plaintext.",
+            "type": "checkbox"
+        },
+        {
+            "key": "override_mount_permissions",
+            "value": false,
+            "str_value": "",
+            "label": "Try to replace file permissions when mounting an archive",
+            "group": "Security",
+            "tooltip": "Set owner to current user and umask to 0277",
+            "type": "checkbox"
+        },
+        {
+            "key": "previous_profile_id",
+            "value": false,
+            "str_value": "2",
+            "label": "Previously selected profile",
+            "group": "",
+            "tooltip": "",
+            "type": "internal"
+        },
+        {
+            "key": "previous_window_width",
+            "value": false,
+            "str_value": "800",
+            "label": "Previous window width",
+            "group": "",
+            "tooltip": "",
+            "type": "internal"
+        },
+        {
+            "key": "previous_window_height",
+            "value": false,
+            "str_value": "600",
+            "label": "Previous window height",
+            "group": "",
+            "tooltip": "",
+            "type": "internal"
+        },
+        {
+            "key": "diff_files_display_mode",
+            "value": false,
+            "str_value": "0",
+            "label": "Diff dialog display mode",
+            "group": "",
+            "tooltip": "",
+            "type": "internal"
+        },
+        {
+            "key": "extract_files_display_mode",
+            "value": false,
+            "str_value": "0",
+            "label": "Extract dialog display mode",
+            "group": "",
+            "tooltip": "",
+            "type": "internal"
+        },
+        {
+            "key": "sourcetab_sort_column",
+            "value": false,
+            "str_value": "0",
+            "label": "Source Tab Sort Column",
+            "group": "",
+            "tooltip": "",
+            "type": "internal"
+        },
+        {
+            "key": "sourcetab_sort_order",
+            "value": false,
+            "str_value": "0",
+            "label": "Source Tab Sort Order",
+            "group": "",
+            "tooltip": "",
+            "type": "internal"
+        },
+        {
+            "key": "enable_background_question",
+            "value": true,
+            "str_value": "",
+            "label": "If the system tray isn't available, ask whether to continue in the background on exit",
+            "group": "",
+            "tooltip": "",
+            "type": "checkbox"
+        },
+        {
+            "key": "disable_background_state",
+            "value": false,
+            "str_value": "",
+            "label": "Previous background exit button state",
+            "group": "",
+            "tooltip": "",
+            "type": "internal"
+        }
+    ]
+}
