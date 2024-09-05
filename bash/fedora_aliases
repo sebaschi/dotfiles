@@ -29,6 +29,12 @@ alias fs24c='cd ~/Nextcloud/Documents/Unibas/FS24'
 alias sdev='ssh sebl@slenzlinger.dev'
 alias sslenz='ssh fm18b_sebaschi@slenzlinger.ch'
 
+# VU aliases
+
+alias vu='cd ~/para/education/vu'
+alias ss='cd ~/para/education/vu/2024-s1-p1/ss'
+alias plsps='cd ~/para/education/vu/2024-s1-p1/plsps'
+
 alias ccat='pygmentize -g'
 
 # list repo IDs and which .repo they belong to
