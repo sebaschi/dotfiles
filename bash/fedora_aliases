@@ -31,9 +31,9 @@ alias sslenz='ssh fm18b_sebaschi@slenzlinger.ch'
 
 # VU aliases
 
-alias vu='cd ~/para/education/vu'
-alias ss='cd ~/para/education/vu/2024-s1-p1/ss'
-alias plsps='cd ~/para/education/vu/2024-s1-p1/plsps'
+alias vu='cd ~/para/area/education/vu/mscompsec'
+alias ss='cd ~/para/area/education/vu/mscompsec/2024-s1-p1/ss'
+alias plsps='cd ~/para/area/education/vu/mscompsec/2024-s1-p1/plsps'
 
 alias ccat='pygmentize -g'
 
