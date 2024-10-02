@@ -35,6 +35,8 @@ alias vu='cd ~/para/area/education/vu/mscompsec'
 alias ss='cd ~/para/area/education/vu/mscompsec/2024-s1-p1/ss'
 alias plsps='cd ~/para/area/education/vu/mscompsec/2024-s1-p1/plsps'
 alias connss='ssh -p 45123 -i ~/.ssh/id_ed25519_appsec zxtra3@appsec.vusec.net'
+alias as3='cd ~/para/area/education/vu/mscompsec/2024-s1-p1/ss/assignments/softsec/3_advexp'
+
 
 alias ccat='pygmentize -g'
 
