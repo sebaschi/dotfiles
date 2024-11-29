@@ -45,3 +45,4 @@ alias frepos='grep -E "^\[.*]" /etc/yum.repos.d/*'
 
 # grep aliases
 alias galias='alias | grep'
+alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
