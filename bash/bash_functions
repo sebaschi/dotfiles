@@ -103,24 +103,38 @@ goto() {
 }
 
 # Easier cd'ing (aliases here because they depend on dots() function being available)
+# Alias for one level up
+#alias ..="command cd .."
 
 dots() {
-  # Count number of dots
-  local depth=$(echo -n "$1" | tr -cd '.' | wc -c)
+  # Extract the input argument
+  local input="$1"
 
-  # if no dots, stay in current directory
-  if [ "depth" -eq 0 ]; then
-    depth=1
+  # Ensure input consists only of dots
+  if [[ ! $input =~ ^\.+$ ]]; then
+    echo "Error: 'dots' function accepts only dots (.., ..., ...., etc.)"
+    return 1
   fi
 
-  for _ in $(seq 1 "$depth"); do
-    cd ..
+  # Count the number of dots in the input
+  local depth=${#input}
+
+  # If depth is 1 (single dot), stay in the current directory
+  if [ "$depth" -eq 1 ]; then
+    return 0
+  fi
+
+  # Construct the relative path based on the number of dots
+  local path=""
+  for _ in $(seq 1 "$((depth - 1))"); do
+    path+="../"
   done
 
+  # Change directory up the calculated number of levels
+  cd "$path" || return
 }
 
-# aliases for even easier navigation
-
+# Aliases for multiple levels
 alias ..='dots ..'
 alias ...='dots ...'
 alias ....='dots ....'
