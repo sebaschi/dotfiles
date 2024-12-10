@@ -3,7 +3,7 @@
     "name": "fedora40-priv",
     "added_at": "2024-06-08 16:59:25.966522",
     "repo": {
-        "url": "ssh://BORG_REPO_URL",
+        "url": "ssh://BORG_REPO_URL:23/./borg",
         "added_at": "2024-06-24 18:58:15.316153",
         "encryption": "repokey-blake2",
         "unique_size": 20698046843,
