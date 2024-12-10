@@ -101,3 +101,28 @@ goto() {
   cd -- "$(dirname "$(fd $1 $HOME /bin /usr/local /usr /etc | fzy)")"
 
 }
+
+# Easier cd'ing (aliases here because they depend on dots() function being available)
+
+dots() {
+  # Count number of dots
+  local depth=$(echo -n "$1" | tr -cd '.' | wc -c)
+
+  # if no dots, stay in current directory
+  if [ "depth" -eq 0 ]; then
+    depth=1
+  fi
+
+  for _ in $(seq 1 "$depth"); do
+    cd ..
+  done
+
+}
+
+# aliases for even easier navigation
+
+alias ..='dots ..'
+alias ...='dots ...'
+alias ....='dots ....'
+alias .....='dots .....'
+alias ......='dots ......'
