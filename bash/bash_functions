@@ -50,6 +50,8 @@ function ensure {
   fi
 }
 
+# Functions for quick base conversion in the terminal
+
 function htd {
   echo "$((0x$1))"
 }
@@ -76,4 +78,26 @@ function d2h {
 
 function d2b {
   echo "obase=2; ibase=10; $1" | bc
+}
+
+#The following functions provide utility for finding a file in a certain directory tree, and then cd'ing to the parent directory containing that file
+
+# File $(search begins in users home directory
+gotoh() {
+  cd -- "$(dirname "$(fd $1 $HOME | fzy)")"
+}
+
+# Search begins in /etc
+gotoe() {
+
+  cd -- "$(dirname "$(fd $1 /etc | fzy)")"
+
+}
+
+# global search, but not in runtime and root dirs
+#
+goto() {
+
+  cd -- "$(dirname "$(fd $1 $HOME /bin /usr/local /usr /etc | fzy)")"
+
 }
