@@ -1,3 +1,5 @@
 lazy-lock.json
 PRIVATE
 .bash*
+local_*
+local-*

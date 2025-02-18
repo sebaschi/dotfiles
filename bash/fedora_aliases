@@ -7,37 +7,6 @@ alias dnfu='sudo dnf upgrade'
 alias dnfi='sudo dnf install'
 alias dnfr='sudo dnf remove'
 
-# User specific aliases and functions
-alias cdpex='cd ~/Documents/Education/UniBas/FS23/pids23/exercises/pids_2023/exercises/'
-alias uni23='cd ~/Nextcloud/Documents/Unibas/HS23/'
-alias thoc='cd ~/Nextcloud/Documents/Unibas/FS23/thoc/'
-alias inetsec='cd ~/Nextcloud/Documents/Unibas/FS23/inetsec/'
-#cd into os alias 
-alias os='cd ~/Nextcloud/Documents/Unibas/FS23/os/' 
-alias pkvps='cd ~/Nextcloud/Documents/Unibas/FS23/pkvps/'
-alias pids='cd ~/Nextcloud/Documents/Unibas/FS23/pids/'
-alias pr23='cd ~/Documents/Education/UniBas/HS23/pr23/'
-alias db23='cd ~/Documents/Education/UniBas/HS23/databases/'
-alias pet23='cd ~/Documents/Education/UniBas/HS23/pethpc23/'
-alias diskmath='cd ~/Documents/Education/UniBas/HS23/diskmath-tutorat23/'
-alias pullbooks='rsync -av ~/Nextcloud/Books/ ~/Books'
-alias pushbooks='rsync -av ~/Books/ ~/Nextcloud/Books'
-alias pushfs24='rsync -uav --exclude=".*" --exclude="__*" --exclude="/venv" ~/documents/education/unibas/fs24/ ~/Nextcloud/Documents/Unibas/FS24'
-alias pullfs24='rsync -uav --exclude=".*" ~/Nextcloud/Documents/Unibas/FS24/ ~/documents/education/unibas/fs24'
-alias fs24l='cd ~/documents/education/unibas/fs24'
-alias fs24c='cd ~/Nextcloud/Documents/Unibas/FS24'
-alias sdev='ssh sebl@slenzlinger.dev'
-alias sslenz='ssh fm18b_sebaschi@slenzlinger.ch'
-
-# VU aliases
-
-alias vu='cd ~/para/area/education/vu/mscompsec'
-alias ss='cd ~/para/area/education/vu/mscompsec/2024-s1-p1/ss'
-alias plsps='cd ~/para/area/education/vu/mscompsec/2024-s1-p1/plsps'
-alias connss='ssh -p 45123 -i ~/.ssh/id_ed25519_appsec zxtra3@appsec.vusec.net'
-alias as3='cd ~/para/area/education/vu/mscompsec/2024-s1-p1/ss/assignments/softsec/3_advexp'
-
-
 alias ccat='pygmentize -g'
 
 # list repo IDs and which .repo they belong to
@@ -46,3 +15,4 @@ alias frepos='grep -E "^\[.*]" /etc/yum.repos.d/*'
 # grep aliases
 alias galias='alias | grep'
 alias inv='nvim $(fzf -m --preview="bat --color=always {}")'
+

@@ -1,0 +1,18 @@
+theme = Grey-green
+font-family = Fira Sans Mono
+font-size = 10
+window-padding-x = 20
+window-padding-y = 20
+window-width = 140
+window-height = 35
+window-save-state = always
+auto-update = download
+command = /home/linuxbrew/.linuxbrew/bin/nu
+keybind = ctrl+shift+l=goto_split:right
+keybind = ctrl+shift+h=goto_split:left
+keybind = ctrl+shift+j=goto_split:bottom
+keybind = ctrl+shift+k=goto_split:top
+keybind = ctrl+s>l=resize_split:right,10
+keybind = ctrl+s>h=resize_split:left,10
+keybind = ctrl+s>j=resize_split:down,10
+keybind = ctrl+s>k=resize_split:up,10
