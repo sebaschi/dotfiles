@@ -1,0 +1,61 @@
+" Core settings
+set nocompatible
+set number
+set relativenumber          " Better for navigation from current position
+set cursorline              " Highlight current line
+set cursorcolumn            " Highlight current column
+set showmatch               " Show matching brackets
+set showmode                " Display current mode
+set laststatus=2            " Always show status line
+set backspace=indent,eol,start " Better backspace behavior
+
+" Search settings
+set ignorecase              " Case insensitive search
+set smartcase               " But case-sensitive if contains uppercase
+set incsearch               " Incremental search
+set hlsearch                " Highlight search results
+
+" Tab and indentation settings
+set expandtab               " Convert tabs to spaces
+set tabstop=4               " Tab width=4 (better for most code)
+set softtabstop=4           " Better backspace behavior
+set shiftwidth=4            " Consistent with tabstop
+set autoindent              " Automatically indent
+
+" Mouse and clipboard
+set mouse+=a                " Enable mouse for all modes
+set clipboard=unnamedplus   " Use system clipboard
+
+" UI improvements
+set shortmess+=I            " Don't show intro message
+set scrolloff=15            " Keep cursor away from top/bottom
+set ttyfast                 " Speed up screen redrawing
+set wildmenu                " Command-line completion menu
+set wildmode=list:longest   " More useful wildmenu
+
+" Ignore file types in completion
+set wildignore=*.docx,*.jpg,*.png,*.gif,*.pdf,*.pyc,*.exe,*.flv,*.img,*.xlsx
+
+" Enable filetype detection
+filetype plugin indent on
+syntax on
+
+" Disable error bells
+set noerrorbells visualbell t_vb=
+
+" Map semicolon to colon for command mode
+map ; :
+nnoremap <leader>; ;
+
+" Force use of hjkl keys
+nnoremap <Left>  :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up>    :echoe "Use k"<CR>
+nnoremap <Down>  :echoe "Use j"<CR>
+inoremap <Left>  <ESC>:echoe "Use h"<CR>
+inoremap <Right> <ESC>:echoe "Use l"<CR>
+inoremap <Up>    <ESC>:echoe "Use k"<CR>
+inoremap <Down>  <ESC>:echoe "Use j"<CR>
+
+" Disable Ex mode (avoids accidental activation)
+nmap Q <Nop>
