@@ -1,0 +1,145 @@
+#!/bin/sh
+# test-dot-install: Test the dot-install script in an isolated environment
+
+set -e
+
+# Create temporary test environment
+TEST_HOME=$(mktemp -d)
+TEST_CONFIG="$TEST_HOME/.config"
+ORIGINAL_HOME=$HOME
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+SCRIPT="$DOTFILES_DIR/dot-install"
+
+# Ensure cleanup of test environment
+cleanup() {
+  HOME=$ORIGINAL_HOME
+  rm -rf "$TEST_HOME"
+  echo "Cleaned up test environment"
+}
+trap cleanup EXIT
+
+# Color output
+GREEN='\033[0;32m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+# Helper functions
+assert() {
+  if [ "$1" = "$2" ]; then
+    printf "${GREEN}✓ PASS:${NC} $3\n"
+  else
+    printf "${RED}✗ FAIL:${NC} $3 (Expected '$2', got '$1')\n"
+    FAILED=1
+  fi
+}
+
+assert_file_exists() {
+  if [ -e "$1" ]; then
+    printf "${GREEN}✓ PASS:${NC} File exists: $1\n"
+  else
+    printf "${RED}✗ FAIL:${NC} File does not exist: $1\n"
+    FAILED=1
+  fi
+}
+
+assert_symlink() {
+  if [ -L "$1" ]; then
+    local target=$(readlink "$1")
+    if [ "$target" = "$2" ]; then
+      printf "${GREEN}✓ PASS:${NC} Symlink correct: $1 -> $2\n"
+    else
+      printf "${RED}✗ FAIL:${NC} Symlink target mismatch for $1. Expected: $2, Got: $target\n"
+      FAILED=1
+    fi
+  else
+    printf "${RED}✗ FAIL:${NC} Not a symlink: $1\n"
+    FAILED=1
+  fi
+}
+
+# Start testing
+echo "Starting dot-install tests in isolated environment: $TEST_HOME"
+FAILED=0
+HOME="$TEST_HOME"
+mkdir -p "$TEST_CONFIG"
+
+# Create a mock .bashrc for testing source additions
+echo "# Mock .bashrc file" > "$TEST_HOME/.bashrc"
+
+# Test 1: Install bash aliases only
+echo "\nTest 1: Installing bash:aliases only"
+"$SCRIPT" bash:aliases
+
+assert_file_exists "$TEST_CONFIG/bash"
+assert_file_exists "$TEST_CONFIG/bash/bash_aliases"
+assert_symlink "$TEST_CONFIG/bash/bash_aliases" "$DOTFILES_DIR/bash/bash_aliases"
+
+# Check .bashrc was updated
+grep -q "source \$HOME/.config/bash/bash_aliases" "$TEST_HOME/.bashrc"
+if [ $? -eq 0 ]; then
+  printf "${GREEN}✓ PASS:${NC} .bashrc correctly updated for bash_aliases\n"
+else
+  printf "${RED}✗ FAIL:${NC} .bashrc not updated for bash_aliases\n"
+  FAILED=1
+fi
+
+# Test 2: Install full bash
+echo "\nTest 2: Installing full bash package"
+"$SCRIPT" bash
+
+assert_file_exists "$TEST_CONFIG/bash/bash_aliases"
+assert_file_exists "$TEST_CONFIG/bash/bash_completion" 
+assert_file_exists "$TEST_CONFIG/bash/bash_env"
+assert_file_exists "$TEST_CONFIG/bash/bash_functions"
+assert_file_exists "$TEST_CONFIG/bash/fedora_aliases"
+assert_symlink "$HOME/.bash_dir" "$TEST_CONFIG/bash"
+
+# Test 3: Install nvim
+echo "\nTest 3: Installing nvim package"
+"$SCRIPT" nvim
+
+assert_symlink "$TEST_CONFIG/nvim" "$DOTFILES_DIR/nvim"
+
+# Test 4: Install git
+echo "\nTest 4: Installing git package"
+"$SCRIPT" git
+
+assert_symlink "$TEST_HOME/.gitconfig" "$DOTFILES_DIR/git/gitconfig"
+
+# Test 5: Install starship
+echo "\nTest 5: Installing starship package" 
+"$SCRIPT" starship
+
+assert_symlink "$TEST_CONFIG/starship.toml" "$DOTFILES_DIR/dot-config/starship.toml"
+
+# Test 6: Install zellij
+echo "\nTest 6: Installing zellij package"
+"$SCRIPT" zellij
+
+assert_file_exists "$TEST_CONFIG/zellij"
+assert_symlink "$TEST_CONFIG/zellij/config.kdl" "$DOTFILES_DIR/dot-config/zellij.kdl"
+
+# Test 7: Test idempotence (installing twice)
+echo "\nTest 7: Testing idempotence (installing twice)"
+# Redirect output to suppress it during the second run
+"$SCRIPT" git > /dev/null
+
+assert_symlink "$TEST_HOME/.gitconfig" "$DOTFILES_DIR/git/gitconfig"
+
+# Test 8: Test backup functionality
+echo "\nTest 8: Testing backup functionality"
+echo "test content" > "$TEST_HOME/.tmux.conf"
+"$SCRIPT" tmux
+
+assert_file_exists "$TEST_HOME/.tmux.conf.bak"
+assert_symlink "$TEST_HOME/.tmux.conf" "$DOTFILES_DIR/tmux/tmux.conf"
+
+# Report results
+echo "\nTest Summary:"
+if [ $FAILED -eq 0 ]; then
+  printf "${GREEN}All tests passed!${NC}\n"
+  exit 0
+else
+  printf "${RED}$FAILED tests failed!${NC}\n"
+  exit 1
+fi
