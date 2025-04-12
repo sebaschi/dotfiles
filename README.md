@@ -37,6 +37,8 @@ A test script is included to verify the installation script works correctly:
 ```
 
 This runs the installation in an isolated environment to ensure all symlinks are correctly created.
+Nothing fancy, just creates mock home in `/tmp` and changes some envars used by the install script.
+The "Testing" amounts to check symlinks exist. This is mostly usefull once extended to detect config packages (just the directories containing an a config), to remind me to add a function for it in `dot-install`.
 
 ## Included Configurations
 
