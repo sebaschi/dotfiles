@@ -1,0 +1,278 @@
+#!/bin/sh
+# dot-install: Create symlinks for dotfiles configurations
+
+set -e
+
+DOTFILES_DIR="$(cd "$(dirname "$0")" && pwd)"
+CONFIG_DIR="${HOME}/.config"
+
+# Print usage info
+usage() {
+    echo "Usage: dot-install [PACKAGE...] [all]"
+    echo
+    echo "Available packages:"
+    echo "  bash                - Bash configuration files (all)"
+    echo "  bash:aliases        - Bash aliases only"
+    echo "  bash:completion     - Bash completion only"
+    echo "  bash:env            - Bash environment only"
+    echo "  bash:functions      - Bash functions only"
+    echo "  bash:fedora         - Fedora specific bash aliases"
+    echo "  borg                - Borg backup profiles"
+    echo "  fish                - Fish shell configuration"
+    echo "  ghostty             - Ghostty terminal configuration"
+    echo "  git                 - Git configuration"
+    echo "  nvim                - Neovim configuration"
+    echo "  rsync               - Rsync filter rules"
+    echo "  starship            - Starship prompt configuration"
+    echo "  tmux                - Tmux configuration"
+    echo "  vim                 - Vim configuration"
+    echo "  zellij              - Zellij terminal multiplexer configuration" 
+    echo "  zsh                 - Zsh configuration"
+    echo "  all                 - Install all packages"
+    echo
+    echo "Example: dot-install bash:aliases git nvim"
+    exit 1
+}
+
+# Create parent directories if they don't exist
+ensure_dir() {
+    if [ ! -d "$1" ]; then
+        mkdir -p "$1"
+        echo "Created directory: $1"
+    fi
+}
+
+# Create a symlink and handle existing files
+link_file() {
+    local src="$1"
+    local dest="$2"
+    
+    # Check if destination already exists
+    if [ -e "$dest" ]; then
+        if [ -L "$dest" ]; then
+            # If it's already a symlink, check if it points to our file
+            if [ "$(readlink "$dest")" = "$src" ]; then
+                echo "Link already exists: $dest -> $src"
+                return 0
+            else
+                echo "Removing existing link: $dest"
+                rm "$dest"
+            fi
+        else
+            # If it's a regular file or directory
+            echo "Backing up existing file: $dest -> ${dest}.bak"
+            mv "$dest" "${dest}.bak"
+        fi
+    fi
+    
+    # Create the symlink
+    ln -s "$src" "$dest"
+    echo "Created link: $dest -> $src"
+}
+
+# Add source command to bashrc if needed
+add_source_to_bashrc() {
+    local file="$1"
+    local config_path="$CONFIG_DIR/bash/$file"
+
+    if [ -f "$HOME/.bashrc" ]; then
+        if ! grep -q "source \$HOME/.config/bash/$file" "$HOME/.bashrc"; then
+            echo "Adding source command for $file to .bashrc"
+            echo "[ -f \$HOME/.config/bash/$file ] && source \$HOME/.config/bash/$file" >> "$HOME/.bashrc"
+        fi
+    else
+        echo "Warning: $HOME/.bashrc does not exist. You'll need to manually source $file."
+    fi
+}
+
+# Install bash aliases
+install_bash_aliases() {
+    echo "Installing bash aliases..."
+    
+    ensure_dir "$CONFIG_DIR/bash"
+    link_file "$DOTFILES_DIR/bash/bash_aliases" "$CONFIG_DIR/bash/bash_aliases"
+    add_source_to_bashrc "bash_aliases"
+}
+
+# Install bash completion
+install_bash_completion() {
+    echo "Installing bash completion..."
+    
+    ensure_dir "$CONFIG_DIR/bash"
+    link_file "$DOTFILES_DIR/bash/bash_completion" "$CONFIG_DIR/bash/bash_completion"
+    add_source_to_bashrc "bash_completion"
+}
+
+# Install bash environment
+install_bash_env() {
+    echo "Installing bash environment..."
+    
+    ensure_dir "$CONFIG_DIR/bash"
+    link_file "$DOTFILES_DIR/bash/bash_env" "$CONFIG_DIR/bash/bash_env"
+    add_source_to_bashrc "bash_env"
+}
+
+# Install bash functions
+install_bash_functions() {
+    echo "Installing bash functions..."
+    
+    ensure_dir "$CONFIG_DIR/bash"
+    link_file "$DOTFILES_DIR/bash/bash_functions" "$CONFIG_DIR/bash/bash_functions"
+    add_source_to_bashrc "bash_functions"
+}
+
+# Install fedora aliases
+install_bash_fedora() {
+    echo "Installing fedora aliases..."
+    
+    ensure_dir "$CONFIG_DIR/bash"
+    link_file "$DOTFILES_DIR/bash/fedora_aliases" "$CONFIG_DIR/bash/fedora_aliases"
+    add_source_to_bashrc "fedora_aliases"
+}
+
+# Install bash configuration (all components)
+install_bash() {
+    echo "Installing all bash configuration..."
+    
+    install_bash_aliases
+    install_bash_completion
+    install_bash_env
+    install_bash_functions
+    install_bash_fedora
+    
+    # Create a .bash_dir symlink in home directory for compatibility
+    link_file "$CONFIG_DIR/bash" "$HOME/.bash_dir"
+}
+
+# Install borg backup profiles
+install_borg() {
+    echo "Installing borg backup profiles..."
+    
+    ensure_dir "$CONFIG_DIR/borg"
+    link_file "$DOTFILES_DIR/borg-backup-profiles" "$CONFIG_DIR/borg"
+}
+
+# Install fish configuration
+install_fish() {
+    echo "Installing fish configuration..."
+    
+    ensure_dir "$CONFIG_DIR"
+    link_file "$DOTFILES_DIR/fish" "$CONFIG_DIR/fish"
+}
+
+# Install ghostty configuration
+install_ghostty() {
+    echo "Installing ghostty configuration..."
+    
+    ensure_dir "$CONFIG_DIR"
+    link_file "$DOTFILES_DIR/ghostty" "$CONFIG_DIR/ghostty"
+}
+
+# Install git configuration
+install_git() {
+    echo "Installing git configuration..."
+    
+    link_file "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
+}
+
+# Install neovim configuration
+install_nvim() {
+    echo "Installing neovim configuration..."
+    
+    ensure_dir "$CONFIG_DIR"
+    link_file "$DOTFILES_DIR/nvim" "$CONFIG_DIR/nvim"
+}
+
+# Install rsync filter rules
+install_rsync() {
+    echo "Installing rsync filter rules..."
+    
+    link_file "$DOTFILES_DIR/sync-filter-fedora/dot-rsync-filter-home" "$HOME/.rsync-filter-home"
+}
+
+# Install starship configuration
+install_starship() {
+    echo "Installing starship configuration..."
+    
+    ensure_dir "$CONFIG_DIR"
+    link_file "$DOTFILES_DIR/dot-config/starship.toml" "$CONFIG_DIR/starship.toml"
+}
+
+# Install tmux configuration
+install_tmux() {
+    echo "Installing tmux configuration..."
+    
+    link_file "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
+}
+
+# Install vim configuration
+install_vim() {
+    echo "Installing vim configuration..."
+    
+    link_file "$DOTFILES_DIR/vim/vimrc" "$HOME/.vimrc"
+    
+    ensure_dir "$HOME/.vim"
+    link_file "$DOTFILES_DIR/vim/initvim" "$HOME/.vim/init.vim"
+}
+
+# Install zellij configuration
+install_zellij() {
+    echo "Installing zellij configuration..."
+    
+    ensure_dir "$CONFIG_DIR/zellij"
+    link_file "$DOTFILES_DIR/dot-config/zellij.kdl" "$CONFIG_DIR/zellij/config.kdl"
+}
+
+# Install zsh configuration
+install_zsh() {
+    echo "Installing zsh configuration..."
+    
+    link_file "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
+}
+
+# Install all packages
+install_all() {
+    install_bash
+    install_borg
+    install_fish
+    install_ghostty
+    install_git
+    install_nvim
+    install_rsync
+    install_starship
+    install_tmux
+    install_vim
+    install_zellij
+    install_zsh
+}
+
+# Parse command line arguments
+if [ $# -eq 0 ]; then
+    usage
+fi
+
+for arg in "$@"; do
+    case "$arg" in
+        bash)           install_bash ;;
+        bash:aliases)   install_bash_aliases ;;
+        bash:completion) install_bash_completion ;;
+        bash:env)       install_bash_env ;;
+        bash:functions) install_bash_functions ;;
+        bash:fedora)    install_bash_fedora ;;
+        borg)           install_borg ;;
+        fish)           install_fish ;;
+        ghostty)        install_ghostty ;;
+        git)            install_git ;;
+        nvim)           install_nvim ;;
+        rsync)          install_rsync ;;
+        starship)       install_starship ;;
+        tmux)           install_tmux ;;
+        vim)            install_vim ;;
+        zellij)         install_zellij ;;
+        zsh)            install_zsh ;;
+        all)            install_all ;;
+        *)              echo "Unknown package: $arg"; usage ;;
+    esac
+done
+
+echo "Installation complete!"
