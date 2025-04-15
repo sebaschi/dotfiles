@@ -85,7 +85,6 @@ add_source_to_bashrc() {
     fi
 }
 
-# Install bash aliases
 install_bash_aliases() {
     echo "Installing bash aliases..."
     
@@ -94,7 +93,6 @@ install_bash_aliases() {
     add_source_to_bashrc "bash_aliases"
 }
 
-# Install bash completion
 install_bash_completion() {
     echo "Installing bash completion..."
     
@@ -103,7 +101,6 @@ install_bash_completion() {
     add_source_to_bashrc "bash_completion"
 }
 
-# Install bash environment
 install_bash_env() {
     echo "Installing bash environment..."
     
@@ -112,7 +109,6 @@ install_bash_env() {
     add_source_to_bashrc "bash_env"
 }
 
-# Install bash functions
 install_bash_functions() {
     echo "Installing bash functions..."
     
@@ -121,7 +117,6 @@ install_bash_functions() {
     add_source_to_bashrc "bash_functions"
 }
 
-# Install fedora aliases
 install_bash_fedora() {
     echo "Installing fedora aliases..."
     
@@ -130,7 +125,6 @@ install_bash_fedora() {
     add_source_to_bashrc "fedora_aliases"
 }
 
-# Install bash configuration (all components)
 install_bash() {
     echo "Installing all bash configuration..."
     
@@ -144,7 +138,6 @@ install_bash() {
     link_file "$CONFIG_DIR/bash" "$HOME/.bash_dir"
 }
 
-# Install borg backup profiles
 install_borg() {
     echo "Installing borg backup profiles..."
     
@@ -152,7 +145,6 @@ install_borg() {
     link_file "$DOTFILES_DIR/borg-backup-profiles" "$CONFIG_DIR/borg"
 }
 
-# Install fish configuration
 install_fish() {
     echo "Installing fish configuration..."
     
@@ -160,7 +152,6 @@ install_fish() {
     link_file "$DOTFILES_DIR/fish" "$CONFIG_DIR/fish"
 }
 
-# Install ghostty configuration
 install_ghostty() {
     echo "Installing ghostty configuration..."
     
@@ -168,14 +159,12 @@ install_ghostty() {
     link_file "$DOTFILES_DIR/ghostty" "$CONFIG_DIR/ghostty"
 }
 
-# Install git configuration
 install_git() {
     echo "Installing git configuration..."
     
     link_file "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
 }
 
-# Install neovim configuration
 install_nvim() {
     echo "Installing neovim configuration..."
     
@@ -183,14 +172,12 @@ install_nvim() {
     link_file "$DOTFILES_DIR/nvim" "$CONFIG_DIR/nvim"
 }
 
-# Install rsync filter rules
 install_rsync() {
     echo "Installing rsync filter rules..."
     
     link_file "$DOTFILES_DIR/sync-filter-fedora/dot-rsync-filter-home" "$HOME/.rsync-filter-home"
 }
 
-# Install starship configuration
 install_starship() {
     echo "Installing starship configuration..."
     
@@ -198,14 +185,12 @@ install_starship() {
     link_file "$DOTFILES_DIR/dot-config/starship.toml" "$CONFIG_DIR/starship.toml"
 }
 
-# Install tmux configuration
 install_tmux() {
     echo "Installing tmux configuration..."
     
     link_file "$DOTFILES_DIR/tmux/tmux.conf" "$HOME/.tmux.conf"
 }
 
-# Install vim configuration
 install_vim() {
     echo "Installing vim configuration..."
     
@@ -215,7 +200,6 @@ install_vim() {
     link_file "$DOTFILES_DIR/vim/initvim" "$HOME/.vim/init.vim"
 }
 
-# Install zellij configuration
 install_zellij() {
     echo "Installing zellij configuration..."
     
@@ -223,14 +207,20 @@ install_zellij() {
     link_file "$DOTFILES_DIR/dot-config/zellij.kdl" "$CONFIG_DIR/zellij/config.kdl"
 }
 
-# Install zsh configuration
 install_zsh() {
     echo "Installing zsh configuration..."
     
     link_file "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
 }
 
-# Install all packages
+# Install vimconfig as config for neovim
+install_vim_neovim() {
+	echo "Installing init.vim as config for *neovim*"
+
+	ensure_dir "$CONFIG_DIR/nvim"
+	link_file "$DOTFILES_DIR/vim/initvim" "$CONFIG_DIR/nvim/init.vim"
+}
+
 install_all() {
     install_bash
     install_borg
@@ -246,7 +236,6 @@ install_all() {
     install_zsh
 }
 
-# Parse command line arguments
 if [ $# -eq 0 ]; then
     usage
 fi
@@ -264,6 +253,7 @@ for arg in "$@"; do
         ghostty)        install_ghostty ;;
         git)            install_git ;;
         nvim)           install_nvim ;;
+	vimnvim)	install_vim_neovim ;;
         rsync)          install_rsync ;;
         starship)       install_starship ;;
         tmux)           install_tmux ;;
