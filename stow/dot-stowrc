@@ -2,3 +2,4 @@
 --dir=${HOME}/dotfiles
 --target=${HOME}
 --no-folding
+--verbose

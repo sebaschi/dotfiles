@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+# Source the task library for help functionality
+TASKLIB_PATH="${TASKLIB_PATH:-${HOME}/.local/lib/shellib/tasklib.sh}"
+if [[ -f "$TASKLIB_PATH" ]]; then
+    source "$TASKLIB_PATH"
+fi
+
 # Configuration variables with defaults
 # URLs and remote resources
 KANIDM_SERVER_CONFIG_URL="${KANIDM_SERVER_CONFIG_URL:-https://raw.githubusercontent.com/kanidm/kanidm/master/examples/server.toml}"
@@ -34,23 +40,28 @@ FEDORA_WEBUI_DEPS="${FEDORA_WEBUI_DEPS:-perl-FindBin perl-File-Compare}"
 
 
 fedora_build_notes () {
+	# Usage: Display build requirements and notes for Fedora systems
 	echo "NOTE: clang and lld are required to build Kanidm for performance"
 	echo "Rustup toolchain is needed"
 
 }
 install_system_lib_deps_fedora () {
+	# Usage: Install system library dependencies required for building Kanidm on Fedora
 	dnf install ${FEDORA_SYSTEM_DEPS}
 }
 
 install_webui_additional_pkgs () {
+	# Usage: Install additional packages required for the Kanidm web UI on Fedora
 	dnf install ${FEDORA_WEBUI_DEPS}
 }
 
 get_server_dev_config () {
+	# Usage: Download the example server configuration file from the Kanidm repository
 	wget "${KANIDM_SERVER_CONFIG_URL}"
 }
 
 make_localhost_config () {
+	# Usage: Create a localhost version of the server config by replacing the domain
 	if [[ -f "${SERVER_CONFIG_FILE}" ]];then
 		sed "s/${ORIGINAL_DOMAIN}/${TARGET_DOMAIN}/g" "${SERVER_CONFIG_FILE}" > "${SERVER_LOCALHOST_CONFIG}"
 	else
@@ -59,19 +70,23 @@ make_localhost_config () {
 }
 
 get_the_software () {
+	# Usage: Pull the Kanidm Docker image using podman
 	podman pull "${KANIDM_DOCKER_IMAGE}"
 }
 
 create_eval_config () {
+	# Usage: Download and configure the server config file for evaluation
 	get_server_dev_config && make_localhost_config
 }
 
 create_kanidmd_volume () {
+	# Usage: Create a podman volume for persistent Kanidm data storage
 	# First create volume for the data!
 	podman volume create "${VOLUME_NAME}"
 }
 
 start_eval_container () {
+	# Usage: Create the Kanidm container with proper ports and volume mappings
 	create_kanidmd_volume && podman create --name "${CONTAINER_NAME}" \
 		-p "${HTTPS_PORT}:${HTTPS_PORT}" \
 		-p "${LDAP_PORT}:${LDAP_PORT}" \
@@ -80,26 +95,31 @@ start_eval_container () {
 }
 
 copy_config_to_container () {
+	# Usage: Copy the localhost configuration file into the container
 	podman cp "${SERVER_LOCALHOST_CONFIG}" "${CONTAINER_NAME}:${CONTAINER_DATA_PATH}/${SERVER_CONFIG_FILE}"
 }
 
 generate_eval_certs () {
+	# Usage: Generate self-signed certificates for the evaluation server
 	podman run --rm -i -t -v "${VOLUME_NAME}:${CONTAINER_DATA_PATH}" \
 		"${KANIDM_DOCKER_IMAGE}" \
 		kanidmd cert-generate
 }
 
 recover_admin_pw () {
+	# Usage: Recover/reset the admin account password
 	podman exec -i -t "${CONTAINER_NAME}" \
 		kanidmd recover-account "${ADMIN_ACCOUNT}"
 }
 
 recover_idm_admin_pw () {
+	# Usage: Recover/reset the idm_admin account password
 	podman exec -i -t "${CONTAINER_NAME}" \
 		kanidmd recover-account "${IDM_ADMIN_ACCOUNT}"
 }
 
 setup_eval_client_config () {
+	# Usage: Create a client configuration file for connecting to the evaluation server
 	cat <<EOF > "${CLIENT_CONFIG_FILE}"
 uri = "${KANIDM_URI}"
 verify_ca = false
@@ -107,6 +127,7 @@ EOF
 }
 
 check_can_login () {
+	# Usage: Test if the kanidm client can login to the server
 	if ! command -v kanidm > /dev/null; then
 		echo "First install kanidm client tools!"
 	else
@@ -115,6 +136,7 @@ check_can_login () {
 }
 
 create_account () {
+	# Usage: Create a new user account in Kanidm
 	# Usage:
 	#	kanidm person create <username> <Display Name>
 
@@ -122,11 +144,28 @@ create_account () {
 }
 
 setup_account_credentials () {
+	# Usage: Set up credentials for a user account
 	# Usage:
 	#	kanidm person credential create-reset-token <username>
 	echo "Implement setup_account_credentials"
 }
 
+help() {
+	# Usage: Show this help message
+	if declare -f show_task_help >/dev/null 2>&1; then
+		show_task_help "$0"
+	else
+		echo "Task library not found. Available tasks:"
+		declare -F | awk '{print $3}' | grep -v '^_' | sort
+	fi
+}
 
-
+# make it runnable
+if [[ "${BASH_SOURCE[0]}" == "${0}" ]]; then
+	if [[ $# -eq 0 ]] || [[ "$1" == "help" ]] || [[ "$1" == "--help" ]] || [[ "$1" == "-h" ]]; then
+		help
+	else
+		"$@"
+	fi
+fi
 
