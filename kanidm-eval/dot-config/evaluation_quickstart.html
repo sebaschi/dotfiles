@@ -1,0 +1,481 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Evaluation Quickstart - Kanidm Administration</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Kanidm Administration</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/kanidm/kanidm" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/kanidm/kanidm/edit/master/book/src/evaluation_quickstart.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <style>
+.mdbook-alerts {
+  padding: 8px 16px;
+  margin-bottom: 16px;
+  border-left: 0.25em solid var(--mdbook-alerts-color);
+}
+
+.mdbook-alerts > *:first-child {
+  margin-top: 0;
+}
+
+.mdbook-alerts > *:last-child {
+  margin-bottom: 0;
+}
+
+.mdbook-alerts-title {
+  display: flex;
+  font-weight: 600;
+  align-items: center;
+  line-height: 1;
+  color: var(--mdbook-alerts-color);
+  text-transform: capitalize;
+}
+
+.mdbook-alerts-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  margin-right: 0.2em;
+  background-color: currentColor;
+  -webkit-mask: no-repeat center / 100%;
+  mask: no-repeat center / 100%;
+  -webkit-mask-image: var(--mdbook-alerts-icon);
+  mask-image: var(--mdbook-alerts-icon);
+}
+
+.mdbook-alerts-note {
+  --mdbook-alerts-color: rgb(9, 105, 218);
+  /* https://icon-sets.iconify.design/material-symbols/info-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 17q.425 0 .713-.288T13 16v-4q0-.425-.288-.712T12 11q-.425 0-.712.288T11 12v4q0 .425.288.713T12 17m0-8q.425 0 .713-.288T13 8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8q0 .425.288.713T12 9m0 13q-2.075 0-3.9-.788t-3.175-2.137q-1.35-1.35-2.137-3.175T2 12q0-2.075.788-3.9t2.137-3.175q1.35-1.35 3.175-2.137T12 2q2.075 0 3.9.788t3.175 2.137q1.35 1.35 2.138 3.175T22 12q0 2.075-.788 3.9t-2.137 3.175q-1.35 1.35-3.175 2.138T12 22m0-2q3.35 0 5.675-2.325T20 12q0-3.35-2.325-5.675T12 4Q8.65 4 6.325 6.325T4 12q0 3.35 2.325 5.675T12 20m0-8"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-tip {
+  --mdbook-alerts-color: rgb(26, 127, 55);
+  /* https://icon-sets.iconify.design/material-symbols/lightbulb-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 22q-.825 0-1.412-.587T10 20h4q0 .825-.587 1.413T12 22m-3-3q-.425 0-.712-.288T8 18q0-.425.288-.712T9 17h6q.425 0 .713.288T16 18q0 .425-.288.713T15 19zm-.75-3q-1.725-1.025-2.738-2.75T4.5 9.5q0-3.125 2.188-5.312T12 2q3.125 0 5.313 2.188T19.5 9.5q0 2.025-1.012 3.75T15.75 16zm.6-2h6.3q1.125-.8 1.738-1.975T17.5 9.5q0-2.3-1.6-3.9T12 4Q9.7 4 8.1 5.6T6.5 9.5q0 1.35.613 2.525T8.85 14M12 14"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-important {
+  --mdbook-alerts-color: rgb(130, 80, 223);
+  /* https://icon-sets.iconify.design/material-symbols/chat-info-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 7q.425 0 .713-.288T13 6q0-.425-.288-.712T12 5q-.425 0-.712.288T11 6q0 .425.288.713T12 7m0 8q.425 0 .713-.288T13 14v-4q0-.425-.288-.712T12 9q-.425 0-.712.288T11 10v4q0 .425.288.713T12 15m-6 3l-2.3 2.3q-.475.475-1.088.213T2 19.575V4q0-.825.588-1.412T4 2h16q.825 0 1.413.588T22 4v12q0 .825-.587 1.413T20 18zm-.85-2H20V4H4v13.125zM4 16V4z"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-warning {
+  --mdbook-alerts-color: rgb(154, 103, 0);
+  /* https://icon-sets.iconify.design/material-symbols/warning-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M2.725 21q-.275 0-.5-.137t-.35-.363q-.125-.225-.137-.488t.137-.512l9.25-16q.15-.25.388-.375T12 3q.25 0 .488.125t.387.375l9.25 16q.15.25.138.513t-.138.487q-.125.225-.35.363t-.5.137zm1.725-2h15.1L12 6zM12 18q.425 0 .713-.288T13 17q0-.425-.288-.712T12 16q-.425 0-.712.288T11 17q0 .425.288.713T12 18m0-3q.425 0 .713-.288T13 14v-3q0-.425-.288-.712T12 10q-.425 0-.712.288T11 11v3q0 .425.288.713T12 15m0-2.5"%2F%3E%3C%2Fsvg%3E');
+}
+
+.mdbook-alerts-caution {
+  --mdbook-alerts-color: rgb(207, 34, 46);
+  /* https://icon-sets.iconify.design/material-symbols/brightness-alert-outline-rounded/ */
+  --mdbook-alerts-icon: url('data:image/svg+xml,%3Csvg xmlns="http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg" width="24" height="24" viewBox="0 0 24 24"%3E%3Cpath fill="currentColor" d="M12 17q.425 0 .713-.288T13 16q0-.425-.288-.712T12 15q-.425 0-.712.288T11 16q0 .425.288.713T12 17m0-4q.425 0 .713-.288T13 12V8q0-.425-.288-.712T12 7q-.425 0-.712.288T11 8v4q0 .425.288.713T12 13m-3.35 7H6q-.825 0-1.412-.587T4 18v-2.65L2.075 13.4q-.275-.3-.425-.662T1.5 12q0-.375.15-.737t.425-.663L4 8.65V6q0-.825.588-1.412T6 4h2.65l1.95-1.925q.3-.275.663-.425T12 1.5q.375 0 .738.15t.662.425L15.35 4H18q.825 0 1.413.588T20 6v2.65l1.925 1.95q.275.3.425.663t.15.737q0 .375-.15.738t-.425.662L20 15.35V18q0 .825-.587 1.413T18 20h-2.65l-1.95 1.925q-.3.275-.662.425T12 22.5q-.375 0-.737-.15t-.663-.425zm.85-2l2.5 2.5l2.5-2.5H18v-3.5l2.5-2.5L18 9.5V6h-3.5L12 3.5L9.5 6H6v3.5L3.5 12L6 14.5V18zm2.5-6"%2F%3E%3C%2Fsvg%3E');
+}
+
+</style>
+<h1 id="evaluation-quickstart"><a class="header" href="#evaluation-quickstart">Evaluation Quickstart</a></h1>
+<p>This section will guide you through a quick setup of Kanidm for evaluation. It's recommended that
+for a production deployment you follow the steps in the
+<a href="installing_the_server.html">installation chapter</a> instead as there are a number of security
+considerations you should be aware of for production deployments.</p>
+<h2 id="requirements"><a class="header" href="#requirements">Requirements</a></h2>
+<p>The only thing you'll need for this is Docker, Podman, or a compatible containerd environment
+installed and running.</p>
+<h2 id="get-the-software"><a class="header" href="#get-the-software">Get the software</a></h2>
+<pre><code class="language-bash">docker pull docker.io/kanidm/server:latest
+</code></pre>
+<h2 id="create-your-configuration"><a class="header" href="#create-your-configuration">Create your configuration</a></h2>
+<p>Create <code>server.toml</code>. The important parts are the <code>domain</code> and <code>origin</code>. For this example, if you
+use <code>localhost</code> and <code>https://localhost:8443</code> this will match later commands.</p>
+<pre><code class="language-toml"># The server configuration file version.
+version = "2"
+
+#   The webserver bind address. Requires TLS certificates.
+#   If the port is set to 443 you may require the
+#   NET_BIND_SERVICE capability.
+#   Defaults to "127.0.0.1:8443"
+bindaddress = "[::]:8443"
+#
+#   The read-only ldap server bind address. Requires
+#   TLS certificates. If set to 636 you may require
+#   the NET_BIND_SERVICE capability.
+#   Defaults to "" (disabled)
+# ldapbindaddress = "[::]:3636"
+#
+#   The path to the kanidm database.
+db_path = "/data/kanidm.db"
+#
+#   If you have a known filesystem, kanidm can tune the
+#   database page size to match. Valid choices are:
+#   [zfs, other]
+#   If you are unsure about this leave it as the default
+#   (other). After changing this
+#   value you must run a vacuum task.
+#   - zfs:
+#     * sets database pagesize to 64k. You must set
+#       recordsize=64k on the zfs filesystem.
+#   - other:
+#     * sets database pagesize to 4k, matching most
+#       filesystems block sizes.
+# db_fs_type = "zfs"
+#
+#   The number of entries to store in the in-memory cache.
+#   Minimum value is 256. If unset
+#   an automatic heuristic is used to scale this.
+#   You should only adjust this value if you experience
+#   memory pressure on your system.
+# db_arc_size = 2048
+#
+#   TLS chain and key in pem format. Both must be present.
+#   If the server receives a SIGHUP, these files will be
+#   re-read and reloaded if their content is valid.
+tls_chain = "/data/chain.pem"
+tls_key = "/data/key.pem"
+#
+#   The log level of the server. May be one of info, debug, trace
+#
+#   NOTE: this can be overridden by the environment variable
+#   `KANIDM_LOG_LEVEL` at runtime
+#   Defaults to "info"
+# log_level = "info"
+#
+#   The DNS domain name of the server. This is used in a
+#   number of security-critical contexts
+#   such as webauthn, so it *must* match your DNS
+#   hostname. It is used to create
+#   security principal names such as `william@idm.example.com`
+#   so that in a (future) trust configuration it is possible
+#   to have unique Security Principal Names (spns) throughout
+#   the topology.
+#
+#   ⚠️  WARNING ⚠️
+#
+#   Changing this value WILL break many types of registered
+#   credentials for accounts including but not limited to
+#   webauthn, oauth tokens, and more.
+#   If you change this value you *must* run
+#   `kanidmd domain rename` immediately after.
+domain = "idm.example.com"
+#
+#   The origin for webauthn. This is the url to the server,
+#   with the port included if it is non-standard (any port
+#   except 443). This must match or be a descendent of the
+#   domain name you configure above. If these two items are
+#   not consistent, the server WILL refuse to start!
+#   origin = "https://idm.example.com"
+origin = "https://idm.example.com:8443"
+
+#   HTTPS requests can be reverse proxied by a loadbalancer.
+#   To preserve the original IP of the caller, these systems
+#   will often add a header such as "Forwarded" or
+#   "X-Forwarded-For". Some other proxies can use the PROXY
+#   protocol v2 header.
+#   This setting allows configuration of the list of trusted
+#   IPs or IP ranges which can supply this header information,
+#   and which format the information is provided in.
+#   Defaults to "none" (no trusted sources)
+#   Only one option can be used at a time.
+# [http_client_address_info]
+# proxy-v2 = ["127.0.0.1", "127.0.0.0/8"]
+#   # OR
+# x-forward-for = ["127.0.0.1", "127.0.0.0/8"]
+
+#   LDAPS requests can be reverse proxied by a loadbalancer.
+#   To preserve the original IP of the caller, these systems
+#   can add a header such as the PROXY protocol v2 header.
+#   This setting allows configuration of the list of trusted
+#   IPs or IP ranges which can supply this header information,
+#   and which format the information is provided in.
+#   Defaults to "none" (no trusted sources)
+# [ldap_client_address_info]
+# proxy-v2 = ["127.0.0.1", "127.0.0.0/8"]
+
+[online_backup]
+#   The path to the output folder for online backups
+path = "/data/kanidm/backups/"
+#   The schedule to run online backups (see https://crontab.guru/)
+#   every day at 22:00 UTC (default)
+schedule = "00 22 * * *"
+#    four times a day at 3 minutes past the hour, every 6th hours
+# schedule = "03 */6 * * *"
+#   We also support non standard cron syntax, with the following format:
+#   sec  min   hour   day of month   month   day of week   year
+#   (it's very similar to the standard cron syntax, it just allows to specify the seconds
+#   at the beginning and the year at the end)
+#   Number of backups to keep (default 7)
+# versions = 7
+</code></pre>
+<h2 id="start-the-container"><a class="header" href="#start-the-container">Start the container</a></h2>
+<p>First we create a docker volume to store the data, then we start the container.</p>
+<pre><code class="language-bash">docker volume create kanidmd
+docker create --name kanidmd \
+  -p '443:8443' \
+  -p '636:3636' \
+  -v kanidmd:/data \
+  docker.io/kanidm/server:latest
+</code></pre>
+<h2 id="copy-the-configuration-to-the-container"><a class="header" href="#copy-the-configuration-to-the-container">Copy the configuration to the container</a></h2>
+<pre><code class="language-bash">docker cp server.toml kanidmd:/data/server.toml
+</code></pre>
+<h2 id="generate-evaluation-certificates"><a class="header" href="#generate-evaluation-certificates">Generate evaluation certificates</a></h2>
+<pre><code class="language-bash">docker run --rm -i -t -v kanidmd:/data \
+  docker.io/kanidm/server:latest \
+  kanidmd cert-generate
+</code></pre>
+<h2 id="start-kanidmd-container"><a class="header" href="#start-kanidmd-container">Start Kanidmd Container</a></h2>
+<pre><code class="language-bash">docker start kanidmd
+</code></pre>
+<h2 id="recover-the-admin-role-passwords"><a class="header" href="#recover-the-admin-role-passwords">Recover the Admin Role Passwords</a></h2>
+<p>The <code>admin</code> account is used to configure Kanidm itself.</p>
+<pre><code class="language-bash">docker exec -i -t kanidmd \
+  kanidmd recover-account admin
+</code></pre>
+<p>The <code>idm_admin</code> account is used to manage persons and groups.</p>
+<pre><code class="language-shell">docker exec -i -t kanidmd \
+  kanidmd recover-account idm_admin
+</code></pre>
+<h2 id="setup-the-client-configuration"><a class="header" href="#setup-the-client-configuration">Setup the client configuration</a></h2>
+<p>This happens on your computer, not in the container.</p>
+<pre><code class="language-toml"># ~/.config/kanidm
+
+uri = "https://localhost:8443"
+verify_ca = false
+</code></pre>
+<h2 id="check-you-can-login"><a class="header" href="#check-you-can-login">Check you can login</a></h2>
+<pre><code class="language-bash">kanidm login --name idm_admin
+</code></pre>
+<h2 id="create-an-account-for-yourself"><a class="header" href="#create-an-account-for-yourself">Create an account for yourself</a></h2>
+<pre><code class="language-shell">kanidm person create &lt;your username&gt; &lt;Your Displayname&gt;
+</code></pre>
+<h2 id="set-up-your-account-credentials"><a class="header" href="#set-up-your-account-credentials">Set up your account credentials</a></h2>
+<pre><code class="language-shell">kanidm person credential create-reset-token &lt;your username&gt;
+</code></pre>
+<p>Then follow the presented steps.</p>
+<h2 id="what-next"><a class="header" href="#what-next">What next?</a></h2>
+<p>You'll probably want to set it up properly, so that other computers can access it, so
+<a href="choosing_a_domain_name.html">choose a domain name</a> and complete the full server installation.</p>
+<p>Alternatively you might like to try configurig one of these:</p>
+<ul>
+<li><a href="./integrations/oauth2.html">OAuth2</a> for web services</li>
+<li><a href="./integrations/pam_and_nsswitch.html">PAM and nsswitch</a> for authentication to Linux systems</li>
+<li><a href="repl/">Replication</a>, if one Kanidm instance isn't enough</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="introduction_to_kanidm.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="supported_features.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="introduction_to_kanidm.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="supported_features.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js"></script>
+        <script src="mark.min.js"></script>
+        <script src="searcher.js"></script>
+
+        <script src="clipboard.min.js"></script>
+        <script src="highlight.js"></script>
+        <script src="book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="mermaid.min.js"></script>
+        <script src="mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

@@ -1,0 +1,100 @@
+#!/usr/bin/env bash
+
+
+fedora_build_notes () {
+	echo "NOTE: clang and lld are required to build Kanidm for performance"
+	echo "Rustup toolchain is needed"
+
+}
+install_system_lib_deps_fedora () {
+	dnf install systemd-devel sqlite-devel openssl-devel pam-devel clang lld
+}
+
+install_webui_additional_pkgs () {
+	dnf install perl-FindBin perl-File-Compare
+}
+
+get_server_dev_config () {
+	wget https://raw.githubusercontent.com/kanidm/kanidm/master/examples/server.toml
+}
+
+make_localhost_config () {
+	if [[ -f server.toml ]];then
+		sed 's/idm\.example\.com/localhost/g' server.toml > server_localhost.toml
+	else
+		echo "First get example server.toml!"
+	fi
+}
+
+get_the_software () {
+	podman pull docker.io/kanidm/server:latest
+}
+
+create_eval_config () {
+	get_server_dev_config && make_localhost_config
+}
+
+create_kanidmd_volume () {
+	# First create volume for the data!
+	podman volume create kanidmd
+}
+
+start_eval_container () {
+	create_kanidmd_volume && podman create --name kanidmd \
+		-p '8443:8443' \
+		-p '3636:3636' \
+		-v kanidmd:/data \
+		docker.io/kanidm/server:latest
+}
+
+copy_config_to_container () {
+	podman cp server_localhost.toml kanidmd:/data/server.toml
+}
+
+generate_eval_certs () {
+	podman run --rm -i -t -v kanidmd:/data \
+		docker.io/kanidm/server:latest \
+		kanidmd cert-generate
+}
+
+recover_admin_pw () {
+	podman exec -i -t kanidmd \
+		kanidmd recover-account admin
+}
+
+recover_idm_admin_pw () {
+	podman exec -i -t kanidmd \
+		kanidmd recover-account idm_admin
+}
+
+setup_eval_client_config () {
+	cat <<'EOF' > ./kanidm
+uri = "https://localhost:8443"
+verify_ca = false
+EOF
+}
+
+check_can_login () {
+	if ! command -v kanidm > /dev/null; then
+		echo "First install kanidm client tools!"
+	else
+		kanidm login --name idm_admin
+	fi
+}
+
+create_account () {
+	# Usage:
+	#	kanidm person create <username> <Display Name>
+
+	echo "Implement create_account"
+}
+
+setup_account_credentials () {
+	# Usage:
+	#	kanidm person credential create-reset-token <username>
+	echo "Implement setup_account_credentials"
+}
+
+
+
+
