@@ -13,7 +13,7 @@ get_function_usage() {
     local file="${2:-$0}"
     
     # Get the function definition and extract Usage: comments
-    awk -v func="$func_name" '
+    awk -v funcname="$func_name" '
     /^[[:space:]]*'"$func_name"'[[:space:]]*\(\)/ {
         in_func = 1
         next
@@ -37,14 +37,14 @@ show_task_help() {
     echo "================"
     echo
     
-    for func in $func_list; do
+    for funcname in $func_list; do
         # Skip internal functions and the help function itself
-        if [[ ! "$func" =~ ^(_|show_task_help|list_functions|get_function_usage) ]]; then
-            local usage=$(get_function_usage "$func" "$file")
+        if [[ ! "$funcname" =~ ^(_|show_task_help|list_functions|get_function_usage) ]]; then
+            local usage=$(get_function_usage "$funcname" "$file")
             if [[ -n "$usage" ]]; then
-                printf "%-30s %s\n" "$func" "- $usage"
+                printf "%-30s %s\n" "$funcname" "- $usage"
             else
-                printf "%-30s\n" "$func"
+                printf "%-30s\n" "$funcname"
             fi
         fi
     done
