@@ -1,5 +1,37 @@
 #!/usr/bin/env bash
 
+# Configuration variables with defaults
+# URLs and remote resources
+KANIDM_SERVER_CONFIG_URL="${KANIDM_SERVER_CONFIG_URL:-https://raw.githubusercontent.com/kanidm/kanidm/master/examples/server.toml}"
+KANIDM_DOCKER_IMAGE="${KANIDM_DOCKER_IMAGE:-docker.io/kanidm/server:latest}"
+
+# File paths
+SERVER_CONFIG_FILE="${SERVER_CONFIG_FILE:-server.toml}"
+SERVER_LOCALHOST_CONFIG="${SERVER_LOCALHOST_CONFIG:-server_localhost.toml}"
+CLIENT_CONFIG_FILE="${CLIENT_CONFIG_FILE:-./kanidm}"
+
+# Container and volume settings
+CONTAINER_NAME="${CONTAINER_NAME:-kanidmd}"
+VOLUME_NAME="${VOLUME_NAME:-kanidmd}"
+CONTAINER_DATA_PATH="${CONTAINER_DATA_PATH:-/data}"
+
+# Network settings
+HTTPS_PORT="${HTTPS_PORT:-8443}"
+LDAP_PORT="${LDAP_PORT:-3636}"
+KANIDM_URI="${KANIDM_URI:-https://localhost:8443}"
+
+# Domain settings
+ORIGINAL_DOMAIN="${ORIGINAL_DOMAIN:-idm.example.com}"
+TARGET_DOMAIN="${TARGET_DOMAIN:-localhost}"
+
+# Account names
+ADMIN_ACCOUNT="${ADMIN_ACCOUNT:-admin}"
+IDM_ADMIN_ACCOUNT="${IDM_ADMIN_ACCOUNT:-idm_admin}"
+
+# Package lists
+FEDORA_SYSTEM_DEPS="${FEDORA_SYSTEM_DEPS:-systemd-devel sqlite-devel openssl-devel pam-devel clang lld}"
+FEDORA_WEBUI_DEPS="${FEDORA_WEBUI_DEPS:-perl-FindBin perl-File-Compare}"
+
 
 fedora_build_notes () {
 	echo "NOTE: clang and lld are required to build Kanidm for performance"
@@ -7,27 +39,27 @@ fedora_build_notes () {
 
 }
 install_system_lib_deps_fedora () {
-	dnf install systemd-devel sqlite-devel openssl-devel pam-devel clang lld
+	dnf install ${FEDORA_SYSTEM_DEPS}
 }
 
 install_webui_additional_pkgs () {
-	dnf install perl-FindBin perl-File-Compare
+	dnf install ${FEDORA_WEBUI_DEPS}
 }
 
 get_server_dev_config () {
-	wget https://raw.githubusercontent.com/kanidm/kanidm/master/examples/server.toml
+	wget "${KANIDM_SERVER_CONFIG_URL}"
 }
 
 make_localhost_config () {
-	if [[ -f server.toml ]];then
-		sed 's/idm\.example\.com/localhost/g' server.toml > server_localhost.toml
+	if [[ -f "${SERVER_CONFIG_FILE}" ]];then
+		sed "s/${ORIGINAL_DOMAIN}/${TARGET_DOMAIN}/g" "${SERVER_CONFIG_FILE}" > "${SERVER_LOCALHOST_CONFIG}"
 	else
-		echo "First get example server.toml!"
+		echo "First get example ${SERVER_CONFIG_FILE}!"
 	fi
 }
 
 get_the_software () {
-	podman pull docker.io/kanidm/server:latest
+	podman pull "${KANIDM_DOCKER_IMAGE}"
 }
 
 create_eval_config () {
@@ -36,40 +68,40 @@ create_eval_config () {
 
 create_kanidmd_volume () {
 	# First create volume for the data!
-	podman volume create kanidmd
+	podman volume create "${VOLUME_NAME}"
 }
 
 start_eval_container () {
-	create_kanidmd_volume && podman create --name kanidmd \
-		-p '8443:8443' \
-		-p '3636:3636' \
-		-v kanidmd:/data \
-		docker.io/kanidm/server:latest
+	create_kanidmd_volume && podman create --name "${CONTAINER_NAME}" \
+		-p "${HTTPS_PORT}:${HTTPS_PORT}" \
+		-p "${LDAP_PORT}:${LDAP_PORT}" \
+		-v "${VOLUME_NAME}:${CONTAINER_DATA_PATH}" \
+		"${KANIDM_DOCKER_IMAGE}"
 }
 
 copy_config_to_container () {
-	podman cp server_localhost.toml kanidmd:/data/server.toml
+	podman cp "${SERVER_LOCALHOST_CONFIG}" "${CONTAINER_NAME}:${CONTAINER_DATA_PATH}/${SERVER_CONFIG_FILE}"
 }
 
 generate_eval_certs () {
-	podman run --rm -i -t -v kanidmd:/data \
-		docker.io/kanidm/server:latest \
+	podman run --rm -i -t -v "${VOLUME_NAME}:${CONTAINER_DATA_PATH}" \
+		"${KANIDM_DOCKER_IMAGE}" \
 		kanidmd cert-generate
 }
 
 recover_admin_pw () {
-	podman exec -i -t kanidmd \
-		kanidmd recover-account admin
+	podman exec -i -t "${CONTAINER_NAME}" \
+		kanidmd recover-account "${ADMIN_ACCOUNT}"
 }
 
 recover_idm_admin_pw () {
-	podman exec -i -t kanidmd \
-		kanidmd recover-account idm_admin
+	podman exec -i -t "${CONTAINER_NAME}" \
+		kanidmd recover-account "${IDM_ADMIN_ACCOUNT}"
 }
 
 setup_eval_client_config () {
-	cat <<'EOF' > ./kanidm
-uri = "https://localhost:8443"
+	cat <<EOF > "${CLIENT_CONFIG_FILE}"
+uri = "${KANIDM_URI}"
 verify_ca = false
 EOF
 }
@@ -78,7 +110,7 @@ check_can_login () {
 	if ! command -v kanidm > /dev/null; then
 		echo "First install kanidm client tools!"
 	else
-		kanidm login --name idm_admin
+		kanidm login --name "${IDM_ADMIN_ACCOUNT}"
 	fi
 }
 
