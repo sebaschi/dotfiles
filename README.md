@@ -1,51 +1,28 @@
 # Dotfiles
 
-A collection of configuration files for various tools and applications I use, with an installation script to easily set them up on new systems.
+Personal dotfiles and more
 
 ## Installation
 
-### Clone the repository
+Install [GNU stow](https://gnu.org/software/stow/). 
+You **will** want a version >= 8. September 2024! See [here](https://cgit.git.savannah.gnu.org/cgit/stow.git/tree/NEWS). 
+This is so `dot-*` named files (or dirs) are handled correctly!
+
+See `run.sh`. Use it as taskfile to install stow.
+
+Then, to make sure that stow is correctly handling `dot-*` named dirs, run
 
 ```bash
-git clone git@github.com:sebaschi/dotfiles.git ~/.dotfiles
+stow --dotfiles --verbose stow
 ```
-{
-
-### Install configurations
-
-The `dot-install` script can be used to install specific configurations or all of them at once:
-
-```bash
-# Install everything
-~/.dotfiles/dot-install all
-
-# Install specific configurations
-~/.dotfiles/dot-install git nvim tmux
-
-# Install only bash aliases
-~/.dotfiles/dot-install bash:aliases
-```
-
-Run `~/.dotfiles/dot-install` without arguments to see all available options.
-
-## Testing
-
-A test script is included to verify the installation script works correctly:
-
-```bash
-~/.dotfiles/test-dot-install
-```
-
-This runs the installation in an isolated environment to ensure all symlinks are correctly created.
-Nothing fancy, just creates mock home in `/tmp` and changes some envars used by the install script.
-The "Testing" amounts to check symlinks exist. This is mostly usefull once extended to detect config packages (just the directories containing an a config), to remind me to add a function for it in `dot-install`.
+This installs the `dot-stowrc` and global ignore list. 
 
 ## Included Configurations
 
 * **Shells**: Bash, Fish, Zsh
 * **Terminal**: Tmux, Zellij, Ghostty
 * **Editors**: Vim, Neovim (with lazy.nvim)
-* **Tools**: Git, Starship prompt, Borg backup
+* **Tools**: Git, Starship prompt, Borg backup, Fossil (**TODO**)
 * **Utilities**: Rsync filters
 
 ## Tools Tools
