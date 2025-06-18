@@ -40,3 +40,6 @@ install_gnu_stow() {
 		install_stow_latest_from_source
 	fi
 }
+
+
+"@"
