@@ -1,0 +1,6 @@
+
+[[Snippets]]
+  Description = "Get root shell while preserving environment variables."
+  Output = ""
+  Tag = ["superuser", "bash", "sh", "envvar"]
+  command = "sudo -E --shell"
