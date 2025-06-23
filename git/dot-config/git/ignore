@@ -1,0 +1,9 @@
+.claude/
+.claude
+.claude/**
+Claude.md
+*.o
+*.log
+cache/
+logs/
+build/
