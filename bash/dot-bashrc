@@ -149,4 +149,8 @@ alias ghcs="gh copilot suggest"
 # alias fcd='cd "$(dirname "$(fzf)")"'
 alias st='systemctl-tui'
 
+# BEGIN hcloud
+source <(hcloud completion bash)
+# END hcloud
+
 source /home/seb/.config/broot/launcher/bash/br
