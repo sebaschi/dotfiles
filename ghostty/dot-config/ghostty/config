@@ -7,7 +7,7 @@ window-width = 140
 window-height = 35
 window-save-state = always
 auto-update = download
-command = /home/linuxbrew/.linuxbrew/bin/nu
+# command = /home/linuxbrew/.linuxbrew/bin/nu
 keybind = ctrl+shift+l=goto_split:right
 keybind = ctrl+shift+h=goto_split:left
 keybind = ctrl+shift+j=goto_split:bottom
