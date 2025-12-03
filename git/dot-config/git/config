@@ -1,7 +1,9 @@
 [user]
 	name = Sebastian Lenzlinger
-	email = eswer@eswo.ch
+	email = s.m.lenzlinger@student.vu.nl
 [init]
-	defaultBranch = main
+	defaultBranch = devel
 [core]
 	editor = nvim
+[gpg "ssh"]
+	allowedSignersFile = /home/seb/.ssh/allowed_signers

@@ -17,6 +17,16 @@ stow --dotfiles --verbose stow
 ```
 This installs the `dot-stowrc` and global ignore list. 
 
+## Installing configs
+```sh
+stow <config-pkg-name>
+```
+`<config-pkg-name>` is just one of the directories of this repo.
+To see what the effect would be without applying anything (dry-run):
+```sh
+stow -n <config-pkg-name>
+```
+
 ## Included Configurations
 
 * **Shells**: Bash, Fish, Zsh

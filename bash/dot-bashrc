@@ -137,8 +137,8 @@ eval "$(starship init bash)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Pagers
-export PAGER="$(which moar)"
-export MANPAGER="$PAGER"
+#export PAGER="$(which moar)"
+# export MANPAGER="$PAGER"
 
 # Github CLI aliases
 alias ghce="gh copilot explain"
@@ -148,9 +148,14 @@ alias ghcs="gh copilot suggest"
 # broot does this now
 # alias fcd='cd "$(dirname "$(fzf)")"'
 alias st='systemctl-tui'
+alias task='./task.py'
 
 # BEGIN hcloud
 source <(hcloud completion bash)
 # END hcloud
 
 source /home/seb/.config/broot/launcher/bash/br
+
+[ -f "/home/seb/.ghcup/env" ] && . "/home/seb/.ghcup/env" # ghcup-env
+
+alias nodeman='ssh hwsec nodeman'

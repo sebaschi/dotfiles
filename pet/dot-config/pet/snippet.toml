@@ -4,3 +4,9 @@
   Output = ""
   Tag = ["superuser", "bash", "sh", "envvar"]
   command = "sudo -E --shell"
+
+[[Snippets]]
+  Description = "Preprocess slabinfo header so that columns align correctly"
+  Output = ""
+  Tag = []
+  command = "sed 's/# //' /proc/slabinfo | column -t"
