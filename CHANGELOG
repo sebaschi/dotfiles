@@ -1,4 +1,0 @@
-# Changes
-
-## Monday June 16, 2025
-Started to reorganize the repo for use with GNU stow. I'm thinking why develop and maintain a system myself, when such a good tool for symlink farming, and thus also my use case of dotfiles management, already exists.
