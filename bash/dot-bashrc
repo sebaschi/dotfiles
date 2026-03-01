@@ -137,7 +137,8 @@ eval "$(starship init bash)"
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Pagers
-#export PAGER="$(which moar)"
+export PAGER="less"
+export LESS="-FIRX"
 # export MANPAGER="$PAGER"
 
 # Github CLI aliases
@@ -159,3 +160,47 @@ source /home/seb/.config/broot/launcher/bash/br
 [ -f "/home/seb/.ghcup/env" ] && . "/home/seb/.ghcup/env" # ghcup-env
 
 alias nodeman='ssh hwsec nodeman'
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/seb/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/seb/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/home/seb/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/seb/miniforge3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/home/seb/miniforge3/bin/mamba';
+export MAMBA_ROOT_PREFIX='/home/seb/miniforge3';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+
+# >>> juliaup initialize >>>
+
+# !! Contents within this block are managed by juliaup !!
+
+case ":$PATH:" in
+    *:/home/seb/.juliaup/bin:*)
+        ;;
+
+    *)
+        export PATH=/home/seb/.juliaup/bin${PATH:+:${PATH}}
+        ;;
+esac
+
+# <<< juliaup initialize <<<
