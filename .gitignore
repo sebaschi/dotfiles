@@ -3,3 +3,4 @@ PRIVATE
 .bash*
 local_*
 local-*
+neovim/dot-config/nvim/lua/plugins/*
