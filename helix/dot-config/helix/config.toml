@@ -6,3 +6,6 @@ insert = "bar"
 [editor.soft-wrap]
 enable = true
 
+[editor.lsp]
+auto-signature-help = false
+
