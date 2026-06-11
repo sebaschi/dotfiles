@@ -2,3 +2,7 @@ export PATH="$HOME/scripts:$PATH"
 export PATH="$HOME/.config/emacs/bin:$PATH"
 export PAGER="less"
 export LESS="-FIRX"
+
+# Proton Pass cli settings
+export PROTON_PASS_KEY_PROVIDER=keyring
+export PROTON_PASS_LINUX_KEYRING=dbus
