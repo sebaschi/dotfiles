@@ -136,6 +136,9 @@ eval "$(starship init bash)"
 # Homebrew
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
+# zoxide
+eval "$(zoxide init bash)"
+
 # Pagers
 export PAGER="less"
 export LESS="-FIRX"
@@ -204,3 +207,4 @@ case ":$PATH:" in
 esac
 
 # <<< juliaup initialize <<<
+function gi() { curl -sL https://www.toptal.com/developers/gitignore/api/$@ ;}
