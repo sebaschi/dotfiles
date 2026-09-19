@@ -9,3 +9,5 @@ enable = true
 [editor.lsp]
 auto-signature-help = false
 
+[editor]
+gutters = ["diagnostics", "line-numbers", "diff", "spacer"]
